@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        /* Dark Mode Background with a Modern Palette */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1e1e2f; /* Dark slate background */
+            color: #e0e0e0; /* Light grey text for readability */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #2b2b3d; /* Darker container */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffffff; /* Bright white for headings */
+        }
+
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #3d3d4f; /* Muted blue-grey border */
+            border-radius: 8px;
+            background-color: #1f1f2e; /* Dark background for input */
+            color: #ffffff; /* White text in input field */
+        }
+
+        button {
+            background-color: #21c087; /* Soft green for action buttons */
+            color: #fff;
+            border: none;
+            padding: 8px 15px; /* Adjusted padding for uniform size */
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-left: 10px;
+            width: 90px; /* Ensure consistent button width */
+        }
+
+        button:hover {
+            background-color: #1aa76b; /* Darker green on hover */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #262637; /* Dark item background */
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li form {
+            margin: 0;
+        }
+
+        li form button {
+            width: 90px; /* Ensures both buttons are the same width */
+            padding: 8px; /* Adjusted padding for uniform button size */
+        }
+
+        strike {
+            color: #808080; /* Light grey for completed tasks */
+        }
+
+        .delete-btn {
+            background-color: #ff5c5c; /* Brighter red for delete */
+        }
+
+        .delete-btn:hover {
+            background-color: #e04a4a; /* Darker red on hover */
+        }
+
+        .undo-btn, .complete-btn {
+            background-color: #21c087; /* Same green for undo/complete */
+        }
+
+        .undo-btn:hover, .complete-btn:hover {
+            background-color: #1aa76b; /* Darker hover effect for both */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        
+        <!-- Add Task Form -->
+        <form action="/add" method="POST">
+            <input type="text" name="name" placeholder="New Task" required>
+            <button type="submit">Add</button>
+        </form>
+
+        <!-- Task List -->
+        <ul>
+            <% tasks.forEach(task => { %>
+                <li>
+                    <div>
+                        <!-- Edit Task Form (Complete/Undo) -->
+                        <form action="/edit/<%= task._id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="<%= task.completed ? 'undo-btn' : 'complete-btn' %>">
+                                <%= task.completed ? "Undo" : "Complete" %>
+                            </button>
+                        </form>
+                        <!-- Task Name with Strike for completed tasks -->
+                        <%- task.completed ? `<strike>${task.name}</strike>` : task.name %>
+                    </div>
+                    <!-- Delete Task Form -->
+                    <form action="/delete/<%= task._id %>" method="POST">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</body>
+</html>
