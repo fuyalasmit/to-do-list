@@ -69,4 +69,4 @@ The app has a clean, modern dark-mode theme with color palettes designed for rea
 
 ## License
 
-This project is licensed under the **ISC License**.
+This project is licensed under the *ISC License*.
